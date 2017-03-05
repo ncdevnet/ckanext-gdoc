@@ -25,9 +25,12 @@ class GdocPlugin(plugins.SingletonPlugin):
         #print data_dict["resource"]['url']
         from ckanext.cloudstorage.storage import ResourceCloudStorage
         rcs = ResourceCloudStorage(data_dict["resource"])
-        
+        import urllib
+        resource_url = rcs.get_url_from_filename(data_dict["resource"]["id"], data_dict["resource"]["name"])
+        encoded_url = urllib.quote(resource_url)
+
         return {
-            "resource_url": rcs.get_url_from_filename(data_dict["resource"]["id"], data_dict["resource"]["name"])
+            "resource_url": encoded_url
         }
 
     def can_view(self, data_dict):
